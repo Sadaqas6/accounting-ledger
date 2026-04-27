@@ -1,6 +1,7 @@
 package com.pluralsight;
 
 import java.io.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class AccountingLedgerApp {
         System.out.println("WELCOME TO THE ACCOUNTING LEDGER PAGE");  // GREETING THE USER
         System.out.println("-------------------------------------");
 
-//        homeScreen();
+        homeScreen(sc);
 //        ledger();
     }
         public static void homeScreen(Scanner sc){  // DISPLAYS THE MAIN MENU
@@ -31,7 +32,7 @@ public class AccountingLedgerApp {
                     \tL) Ledger
                     \tX) Exit
                     """);
-            System.out.print("Select from the OPTIONS above: "); // PROMPTS THE USER TO SELECT OPTIONS
+            System.out.print("Select from the OPTIONS above: ");// PROMPTS THE USER TO SELECT OPTIONS
             String userOption = sc.nextLine().toUpperCase();
 
             switch (userOption){
@@ -39,9 +40,10 @@ public class AccountingLedgerApp {
                      addDeposit(sc);
                     break;
                 case "P":                // GOES TO THE MAKE DEPOSIT SUBMENU
-                    // makeDeposit(sc);
+                     makeDeposit(sc);
                     break;
                 case "L":                // GOES TO THE LEDGER SUBMENU
+                    // displayLedgerScreen();
                     //  ledger(sc);
                     break;
                 case "X":               // SENDS A GOODBYE MESSAGE
@@ -56,14 +58,34 @@ public class AccountingLedgerApp {
 
         }
         public static void addDeposit(Scanner sc){
-            ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE INTO THE HASH MAP
+            ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE INTO THE ARRAYLIST
 
             System.out.println("=-=-=-=ADD DEPOSIT=-=-=-=");
+            formatSpaces();
 
+            String date;
+            String time;
 
-            // AUTOMATICALLY READS WHAT THE DATE/TIME SO USERS DON'T HAVE TO INPUT
-            LocalDate date = LocalDate.now();
-            LocalTime time = LocalTime.now();
+            // ASKS THE USER IF THE TRANSACTION IS HAPPENING NOW OR IN THE PAST
+            System.out.print("Is this transaction from today? (Y/N): ");
+            String userInput = sc.nextLine().trim().toUpperCase();
+
+            if(userInput.equalsIgnoreCase("Y")){
+                // AUTO-GENERATES THE CURRENT DATE/TIME
+                date = LocalDate.now().toString();   // CONVERTS FROM DATE OBJECT TO STRING
+                time = LocalTime.now().toString();
+                System.out.println("Date and time set to: " + date + " " + time);
+
+            }else{
+
+                // ASK USER TO INPUT DATE AND TIME MANUALLY
+                System.out.print("Enter date (YYYY-MM-DD): ");
+                date = sc.nextLine().trim();
+
+                System.out.print("Enter time (HH:MM:SS): ");
+                time = sc.nextLine().trim();
+
+            }
 
             System.out.print("Enter Description: ");  // PROMPTS USER FOR DESCRIPTION
             String description = sc.nextLine().trim();
@@ -86,8 +108,56 @@ public class AccountingLedgerApp {
         }
 
         public static void makeDeposit(Scanner sc){
+            ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE INTO THE ARRAYLIST
 
+            System.out.println("=-=-=-=MAKE PAYMENT=-=-=-=");
+            formatSpaces();
+
+            // ASKS THE USER IF THE PAYMENT IS HAPPENING NOW OR IN THE PAST
+            System.out.print("Is this payment from today? (Y/N): ");
+            String answer = sc.nextLine().trim().toUpperCase();
+
+            String date;
+            String time;
+
+
+            if (answer.equals("Y")) {
+                // AUTO-GENERATES THE CURRENT DATE AND TIME
+                date = LocalDate.now().toString();
+                time = LocalTime.now().toString();
+                System.out.println("Date and time set to: " + date + " " + time);
+            } else {
+                // PROMPTS THE USER TO MANUALLY ENTER THE DATE AND TIME
+                System.out.print("Enter date (YYYY-MM-DD): ");
+                date = sc.nextLine().trim();
+
+                System.out.print("Enter time (HH:MM:SS): ");
+                time = sc.nextLine().trim();
+            }
+            System.out.print("Enter Description: ");  // PROMPTS USER FOR DESCRIPTION
+            String description = sc.nextLine().trim();
+
+            System.out.print("Enter Vendor: ");  // PROMPTS USER FOR VENDOR
+            String vendor = sc.nextLine().trim();
+
+            System.out.print("Enter Amount: ");  // PROMPTS USER FOR AMOUNT
+            double amount = Double.parseDouble(sc.nextLine());
+
+            if (amount > 0){
+                amount = -amount;  // FLIPS THE AMOUNT NEGATIVE FOR THE PAYMENT
+            }
+
+            // CREATES A NEW TRANSACTION OBJECT WITH COLLECTED DATA ABOVE
+            Transactions t = new Transactions(date, time, description, vendor, amount);
+            transaction.add(t);  // ADDS IT TO THE LIST
+
+            // SAVES THE NEW TRANSACTION OBJECT TO FILE
+            saveToFile(t);
+
+            System.out.println("This Payment was SAVED successfully!");
         }
+
+
 
         public static ArrayList<Transactions> loadInventory(){
 
@@ -104,18 +174,16 @@ public class AccountingLedgerApp {
                 while((line = bufferedReader.readLine()) != null){
 
                     String[] splitTransaction = line.split("\\|");
-                    LocalDate date = LocalDate.parse(splitTransaction[0]); // FIRST FIELD: DATE
-                    LocalTime time = LocalTime.parse(splitTransaction[1]); // SECOND FIELD: TIME
+                    String date = splitTransaction[0]; // FIRST FIELD: DATE
+                    String time = splitTransaction[1]; // SECOND FIELD: TIME
                     String description = splitTransaction[2]; // THIRD FIELD: DESCRIPTION
                     String vendor = splitTransaction[3];      // FORTH FIELD: VENDOR
                     double amount = Double.parseDouble(splitTransaction[4]);  // FIFTH FIELD: AMOUNT
 
                     Transactions t = new Transactions(date, time, description, vendor, amount);  // CREATES A NEW TRANSACTION OBJECT
                     transactions.add(t);   // ADDS THE TRANSACTION TO THE ARRAYLIST
-
-                    bufferedReader.close();  // CLOSES THE FILE AND RELEASES TO RESOURCES
-
                 }
+                bufferedReader.close();  // CLOSES THE FILE AND RELEASES TO RESOURCES
 
             }catch(IOException e){
 
@@ -132,7 +200,7 @@ public class AccountingLedgerApp {
                 BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
 
                 // WRITES THE TRANSACTION INTO THE CSV FILE
-                bufferedWriter.write(t.getDate() + "|" + t.getTime() + "|" + t.getDescription() + "|" + t.getVendor() + "|" + t.getAmount());
+                bufferedWriter.write(t.toString());  // CALLS THE toString FROM TRANSACTION CLASS
                 bufferedWriter.newLine();
                 bufferedWriter.close();
 
@@ -141,4 +209,8 @@ public class AccountingLedgerApp {
                 e.printStackTrace();
             }
         }
+
+        public static void formatSpaces() {
+        System.out.println();
+    }
 }

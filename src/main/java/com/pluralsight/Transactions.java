@@ -5,13 +5,13 @@ import java.time.LocalTime;
 
 public class Transactions {
 
-    private LocalDate date;
-    private LocalTime time;
+    private String date;
+    private String time;
     private String description;
     private String vendor;
     private double amount;
 
-    public Transactions(LocalDate date, LocalTime time, String description, String vendor, double amount) {
+    public Transactions(String date, String time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
         this.description = description;
@@ -19,11 +19,11 @@ public class Transactions {
         this.amount = amount;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public LocalTime getTime() {
+    public String getTime() {
         return time;
     }
 
@@ -37,5 +37,12 @@ public class Transactions {
 
     public double getAmount() {
         return amount;
+    }
+
+
+    // FORMATS TRANSACTION INTO CSV FORMATTING
+    @Override
+    public String toString() {
+        return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
     }
 }
