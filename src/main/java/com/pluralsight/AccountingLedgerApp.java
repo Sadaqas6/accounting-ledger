@@ -1,12 +1,19 @@
 package com.pluralsight;
 
+import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.Scanner;
+
+
+
 
 public class AccountingLedgerApp {
     public static void main(String[] args) {
-
-        ArrayList<Transactions> ledger = new ArrayList<>(); // ARRAYLIST OF TRANSACTION OBJECTS
 
         Scanner sc = new Scanner(System.in);  // ALLOWS US TO READ THE INPUT FROM THE KEYBOARD
 
@@ -29,7 +36,7 @@ public class AccountingLedgerApp {
 
             switch (userOption){
                 case "D":                // GOES TO THE ADD DEPOSIT SUBMENU
-                    // addDeposit(sc);
+                     addDeposit(sc);
                     break;
                 case "P":                // GOES TO THE MAKE DEPOSIT SUBMENU
                     // makeDeposit(sc);
@@ -39,11 +46,99 @@ public class AccountingLedgerApp {
                     break;
                 case "X":               // SENDS A GOODBYE MESSAGE
                     System.out.println("Thank you for visiting your account. See you soon!!");
-                    sc.close();         // CLOSES THE SCANNER
+                    sc.close();  // CLOSES THE SCANNER
+                    System.exit(0);
+                    break;
                 default:                // HANDLES ANY INPUT THAT AREN'T THE ONES LISTED ABOVE
                     System.out.println("Invalid option. Try again!(Press ENTER to continue");
                     sc.nextLine();
             }
 
+        }
+        public static void addDeposit(Scanner sc){
+            ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE INTO THE HASH MAP
+
+            System.out.println("=-=-=-=ADD DEPOSIT=-=-=-=");
+
+
+            // AUTOMATICALLY READS WHAT THE DATE/TIME SO USERS DON'T HAVE TO INPUT
+            LocalDate date = LocalDate.now();
+            LocalTime time = LocalTime.now();
+
+            System.out.print("Enter Description: ");  // PROMPTS USER FOR DESCRIPTION
+            String description = sc.nextLine().trim();
+
+            System.out.print("Enter Vendor: ");  // PROMPTS USER FOR VENDOR
+            String vendor = sc.nextLine().trim();
+
+            System.out.print("Enter Amount: ");  // PROMPTS USER FOR AMOUNT
+            double amount = Double.parseDouble(sc.nextLine());
+
+            // CREATES A NEW TRANSACTION OBJECT WITH COLLECTED DATA ABOVE
+            Transactions t = new Transactions(date, time, description, vendor, amount);
+            transaction.add(t);  // ADDS IT TO THE LIST
+
+            // SAVES THE NEW TRANSACTION OBJECT TO FILE
+            saveToFile(t);
+
+            System.out.println("This Deposit was ADDED successfully!");
+
+        }
+
+        public static void makeDeposit(Scanner sc){
+
+        }
+
+        public static ArrayList<Transactions> loadInventory(){
+
+            ArrayList<Transactions> transactions = new ArrayList<>(); // ARRAYLIST OF TRANSACTION OBJECTS
+
+            try{
+                // OPENS AND READS THE FILE USING BUFFEREDREADER FOR EFFICIENCY
+                BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
+
+                String line;   // line VARIABLE HOLDS EACH LINE FROM THE FILE AS IT READS
+                bufferedReader.readLine();  // SKIPS THE FIRST HEADER LINE
+
+                // READS EACH LINE FROM THE CSV FILE UNTIL IT RETURNS NULL
+                while((line = bufferedReader.readLine()) != null){
+
+                    String[] splitTransaction = line.split("\\|");
+                    LocalDate date = LocalDate.parse(splitTransaction[0]); // FIRST FIELD: DATE
+                    LocalTime time = LocalTime.parse(splitTransaction[1]); // SECOND FIELD: TIME
+                    String description = splitTransaction[2]; // THIRD FIELD: DESCRIPTION
+                    String vendor = splitTransaction[3];      // FORTH FIELD: VENDOR
+                    double amount = Double.parseDouble(splitTransaction[4]);  // FIFTH FIELD: AMOUNT
+
+                    Transactions t = new Transactions(date, time, description, vendor, amount);  // CREATES A NEW TRANSACTION OBJECT
+                    transactions.add(t);   // ADDS THE TRANSACTION TO THE ARRAYLIST
+
+                    bufferedReader.close();  // CLOSES THE FILE AND RELEASES TO RESOURCES
+
+                }
+
+            }catch(IOException e){
+
+                e.printStackTrace();  // PRINTS THE ERROR IN THE SEQUENCES OF PROBLEMS CAUSING THE ERROR
+            }
+
+            return transactions; // RETURNS THE FULL LIST
+        }
+
+        public static void saveToFile(Transactions t){
+
+            try{
+                // USING APPEND == TRUE TO PREVENT FROM OVERRIDING THE EXISTING TRANSACTIONS
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
+
+                // WRITES THE TRANSACTION INTO THE CSV FILE
+                bufferedWriter.write(t.getDate() + "|" + t.getTime() + "|" + t.getDescription() + "|" + t.getVendor() + "|" + t.getAmount());
+                bufferedWriter.newLine();
+                bufferedWriter.close();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 }
