@@ -76,8 +76,8 @@ public class AccountingLedgerApp {
 
             if(userInput.equalsIgnoreCase("Y")){
                 // AUTO-GENERATES THE CURRENT DATE/TIME
-                date = LocalDate.now().toString();   // CONVERTS FROM DATE OBJECT TO STRING
-                time = LocalTime.now().toString();
+                date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));  // PRINTS "2026-04-27"
+                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));  // PRINTS "15:37:46"
                 System.out.println("Date and time set to: " + date + " " + time);
 
             }else{
