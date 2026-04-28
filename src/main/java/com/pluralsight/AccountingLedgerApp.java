@@ -26,6 +26,9 @@ public class AccountingLedgerApp {
     }
         public static void homeScreen(Scanner sc){  // DISPLAYS THE MAIN MENU
 
+
+        while (true) {// KEEPS LOOPING BACK TO HOME SCREEN AFTER EVERY ACTION
+            formatSpaces();
             System.out.println("""          
                     \tD) Add Deposit
                     \tP) Make Payment(Debit)
@@ -35,16 +38,15 @@ public class AccountingLedgerApp {
             System.out.print("Select from the OPTIONS above: ");// PROMPTS THE USER TO SELECT OPTIONS
             String userOption = sc.nextLine().toUpperCase();
 
-            switch (userOption){
+            switch (userOption) {
                 case "D":                // GOES TO THE ADD DEPOSIT SUBMENU
-                     addDeposit(sc);
+                    addDeposit(sc);
                     break;
                 case "P":                // GOES TO THE MAKE DEPOSIT SUBMENU
-                     makeDeposit(sc);
+                    makeDeposit(sc);
                     break;
                 case "L":                // GOES TO THE LEDGER SUBMENU
-                    // displayLedgerScreen();
-                    //  ledger(sc);
+                     displayLedgerScreen(sc);
                     break;
                 case "X":               // SENDS A GOODBYE MESSAGE
                     System.out.println("Thank you for visiting your account. See you soon!!");
@@ -52,11 +54,12 @@ public class AccountingLedgerApp {
                     System.exit(0);
                     break;
                 default:                // HANDLES ANY INPUT THAT AREN'T THE ONES LISTED ABOVE
-                    System.out.println("Invalid option. Try again!(Press ENTER to continue");
+                    System.out.print("Invalid option. Try again!(Press ENTER to continue)");
                     sc.nextLine();
             }
-
         }
+    }
+
         public static void addDeposit(Scanner sc){
             ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE INTO THE ARRAYLIST
 
@@ -134,6 +137,7 @@ public class AccountingLedgerApp {
                 System.out.print("Enter time (HH:MM:SS): ");
                 time = sc.nextLine().trim();
             }
+
             System.out.print("Enter Description: ");  // PROMPTS USER FOR DESCRIPTION
             String description = sc.nextLine().trim();
 
@@ -157,6 +161,28 @@ public class AccountingLedgerApp {
             System.out.println("This Payment was SAVED successfully!");
         }
 
+        public static void displayLedgerScreen(Scanner sc){
+
+            ArrayList<Transactions> transaction = loadInventory();
+
+            System.out.println("-=-=-=LEDGER SCREEN=-=-=-");
+            System.out.println("""
+                    \tA) All
+                    \tD) Deposits
+                    \tP) Payments
+                    \tR) Reports
+                    \tH) Home""");
+            System.out.print("Choose from these OPTIONS above: ");
+            String userChoice = sc.nextLine().trim().toUpperCase();
+
+            switch (userChoice){
+                case "A":
+                    for ()
+            }
+
+
+
+        }
 
 
         public static ArrayList<Transactions> loadInventory(){
