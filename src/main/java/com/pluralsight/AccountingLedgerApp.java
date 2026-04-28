@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import java.io.*;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -161,28 +162,173 @@ public class AccountingLedgerApp {
             System.out.println("This Payment was SAVED successfully!");
         }
 
-        public static void displayLedgerScreen(Scanner sc){
+        public static void displayLedgerScreen(Scanner sc) {
 
             ArrayList<Transactions> transaction = loadInventory();
 
-            System.out.println("-=-=-=LEDGER SCREEN=-=-=-");
-            System.out.println("""
-                    \tA) All
-                    \tD) Deposits
-                    \tP) Payments
-                    \tR) Reports
-                    \tH) Home""");
-            System.out.print("Choose from these OPTIONS above: ");
-            String userChoice = sc.nextLine().trim().toUpperCase();
+            while (true) {
+                System.out.println("-=-=-=LEDGER SCREEN=-=-=-");
+                System.out.println("""
+                        \tA) All
+                        \tD) Deposits
+                        \tP) Payments
+                        \tR) Reports
+                        \tH) Home""");
+                System.out.print("Choose from these OPTIONS above: ");
+                String userChoice = sc.nextLine().trim().toUpperCase();
 
-            switch (userChoice){
-                case "A":
-                    for ()
+                switch (userChoice) {
+                    case "A":
+                        for (int i = transaction.size() - 1; i >= 0; i--) {
+                            System.out.println(transaction.get(i));
+                        }
+                        break;
+
+                    case "D":
+                        // DEPOSITS - amount is POSITIVE (greater than 0)
+                        for (int i = transaction.size() - 1; i >= 0; i--) {
+                            if (transaction.get(i).getAmount() > 0) {
+                                System.out.println(transaction.get(i));
+                            }
+                        }
+                        break;
+
+                    case "P":
+                        // PAYMENTS - amount is NEGATIVE (less than 0)
+                        for (int i = transaction.size() - 1; i >= 0; i--) {
+                            if (transaction.get(i).getAmount() < 0) {
+                                System.out.println(transaction.get(i));
+                            }
+                        }
+                        break;
+
+                    case "R":
+                    displayReports(sc);
+                        break;
+
+                    case "H":
+
+                        return;
+                    default:
+                        System.out.println("Invalid option. Please try again!");
+
+
+
+                }
+
             }
 
-
-
         }
+
+        public static void displayReports(Scanner sc) {
+
+            ArrayList<Transactions> transaction = loadInventory();
+
+            while(true){
+            System.out.println("-=-=-=REPORTS=-=-=-");
+            System.out.println("""
+                    \t1) Month To Date
+                    \t2) Previous Month
+                    \t3) Year To Date
+                    \t4) Previous Year
+                    \t5) Search by Vendor
+                    \t0) Back""");
+            System.out.print("Choose: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("-=-=-=MONTH TO DATE=-=-=-");
+
+                    for (int i = transaction.size() - 1; i >= 0; i--) {
+
+                        try{
+                        // PARSES THE TRANSACTION DATE STRING INTO A LocalDate OBJECT
+                        LocalDate transactionDate = LocalDate.parse(transaction.get(i).getDate());
+                        // CHECKS IF THE TRANSACTION MONTH AND YEAR MATCH THE CURRENT MONTH AND YEAR
+                        if (transactionDate.getMonthValue() == LocalDate.now().getMonthValue() && transactionDate.getYear() == LocalDate.now().getYear()) {
+                            System.out.println(transaction.get(i));
+                        }
+                    }catch(Exception e){
+                        e.printStackTrace();
+                            System.out.println("Invalid date format for transaction: " + transaction.get(i));}
+                    }
+                    break;
+                case 2:
+                    System.out.println("-=-=-=PREVIOUS MONTH=-=-=-");
+
+                    for (int i = transaction.size() - 1; i >= 0; i--) {
+
+                        try{
+                        // PARSES THE TRANSACTION DATE STRING INTO A LocalDate OBJECT
+                        LocalDate transactionDate = LocalDate.parse(transaction.get(i).getDate());
+
+                        if (transactionDate.getMonthValue() == LocalDate.now().getMonthValue() - 1 && transactionDate.getYear() == LocalDate.now().getYear()) {
+                            System.out.println(transaction.get(i));
+                        }
+                    }catch(Exception e){
+                            e.printStackTrace();
+                            System.out.println("Invalid date format for transaction: " + transaction.get(i));
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("-=-=-=YEAR TO DATE=-=-=-");
+
+                    for (int i = transaction.size() - 1; i >= 0; i--) {
+
+                        try{
+                        LocalDate transactionDate = LocalDate.parse(transaction.get(i).getDate());
+
+                        if (transactionDate.getYear() == LocalDate.now().getYear()) {
+                            System.out.println(transaction.get(i));
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                            System.out.println("Invalid date format for transaction: " + transaction.get(i));
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.println("-=-=-=PREVIOUS YEAR=-=-=-");
+
+                        for (int i = transaction.size() - 1; i >= 0; i--) {
+                            try{
+
+                            LocalDate transactionDate = LocalDate.parse(transaction.get(i).getDate());
+
+                            if (transactionDate.getYear() == LocalDate.now().getYear() - 1) {
+                                System.out.println(transaction.get(i));
+                            }
+
+                    } catch (Exception e){
+                           e.printStackTrace();
+                            System.out.println("Invalid date format for transaction: " + transaction.get(i));
+                }
+       }
+
+                    break;
+                case 5:
+                    System.out.println("-=-=-=SEARCH BY VENDOR=-=-=-");
+
+                    System.out.print("Enter Vendor: ");
+                    String vendor = sc.nextLine().trim();
+
+                    for (int i = transaction.size() - 1; i >= 0; i--) {
+
+                        if (transaction.get(i).getVendor().equalsIgnoreCase(vendor)) {
+                            System.out.println(transaction.get(i));
+                        }
+                    }
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again!");
+            }
+        }
+    }
 
 
         public static ArrayList<Transactions> loadInventory(){
