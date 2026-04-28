@@ -23,7 +23,7 @@ public class AccountingLedgerApp {
         System.out.println("-------------------------------------");
 
         homeScreen(sc);
-//        ledger();
+
     }
         public static void homeScreen(Scanner sc){  // DISPLAYS THE MAIN MENU
 
