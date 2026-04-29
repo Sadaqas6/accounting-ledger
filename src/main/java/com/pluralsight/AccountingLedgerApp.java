@@ -62,61 +62,64 @@ public class AccountingLedgerApp {
         }
     }
 
-        public static void addDeposit(Scanner sc){
+        public static void addDeposit(Scanner sc) {
             ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE
 
-            System.out.println("=-=-=-=ADD DEPOSIT=-=-=-=");
-            formatSpaces();
 
-            String date;
-            String time;
+                formatSpaces();
+                System.out.println("=-=-=-=-=-=ADD DEPOSIT=-=-=-=-=-=");
+                formatSpaces();
 
-            // ASKS THE USER IF THE TRANSACTION IS HAPPENING NOW OR IN THE PAST
-            System.out.print("Is this transaction from today? (Y/N): ");
-            String userInput = sc.nextLine().trim().toUpperCase();
+                String date;
+                String time;
 
-            if(userInput.equalsIgnoreCase("Y")){
-                // AUTO-GENERATES THE CURRENT DATE/TIME
-                date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));  // PRINTS "2026-04-27"
-                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));  // PRINTS "15:37:46"
-                System.out.printf("""
-                        Date set to: %s
-                        Time set to: %s%n""", date, time);
+                // ASKS THE USER IF THE TRANSACTION IS HAPPENING NOW OR IN THE PAST
+                System.out.print("Is this transaction from today? (Y/N): ");
+                String userInput = sc.nextLine().trim().toUpperCase();
 
-            }else{
+                if (userInput.equalsIgnoreCase("Y")) {
+                    // AUTO-GENERATES THE CURRENT DATE/TIME
+                    date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));  // PRINTS "2026-04-27"
+                    time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));  // PRINTS "15:37:46"
+                    System.out.printf("""
+                            Date set to: %s
+                            Time set to: %s%n""", date, time);
 
-                // ASK USER TO INPUT DATE AND TIME MANUALLY
-                System.out.print("Enter date (YYYY-MM-DD): ");
-                date = sc.nextLine().trim();
+                } else {
 
-                System.out.print("Enter time (HH:MM:SS): ");
-                time = sc.nextLine().trim();
+                    // ASK USER TO INPUT DATE AND TIME MANUALLY
+                    System.out.print("Enter date (YYYY-MM-DD): ");
+                    date = sc.nextLine().trim();
 
-            }
+                    System.out.print("Enter time (HH:MM:SS): ");
+                    time = sc.nextLine().trim();
 
-            System.out.print("Enter Description: ");  // PROMPTS USER FOR DESCRIPTION
-            String description = sc.nextLine().trim();
+                }
 
-            System.out.print("Enter Vendor: ");  // PROMPTS USER FOR VENDOR
-            String vendor = sc.nextLine().trim();
+                System.out.print("Enter Description: ");  // PROMPTS USER FOR DESCRIPTION
+                String description = sc.nextLine().trim();
 
-            System.out.print("Enter Amount: ");  // PROMPTS USER FOR AMOUNT
-            double amount = Double.parseDouble(sc.nextLine());
+                System.out.print("Enter Vendor: ");  // PROMPTS USER FOR VENDOR
+                String vendor = sc.nextLine().trim();
 
-            // CREATES A NEW TRANSACTION OBJECT WITH COLLECTED DATA ABOVE
-            Transactions t = new Transactions(date, time, description, vendor, amount);
-            transaction.add(t);  // ADDS IT TO THE LIST
+                System.out.print("Enter Amount: ");  // PROMPTS USER FOR AMOUNT
+                double amount = Double.parseDouble(sc.nextLine());
 
-            // SAVES THE NEW TRANSACTION OBJECT TO FILE
-            saveToFile(t);
-            formatSpaces();
-            System.out.println("\uD83D\uDCB2Deposit of $" + amount + " added successfully!");
+                // CREATES A NEW TRANSACTION OBJECT WITH COLLECTED DATA ABOVE
+                Transactions t = new Transactions(date, time, description, vendor, amount);
+                transaction.add(t);  // ADDS IT TO THE LIST
+
+                // SAVES THE NEW TRANSACTION OBJECT TO FILE
+                saveToFile(t);
+                formatSpaces();
+                System.out.println("\uD83D\uDCB2Deposit of $" + amount + " added successfully!");
 
         }
 
         public static void makeDeposit(Scanner sc){
             ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE
 
+            formatSpaces();
             System.out.println("=-=-=-=MAKE PAYMENT=-=-=-=");
             formatSpaces();
 
@@ -172,7 +175,8 @@ public class AccountingLedgerApp {
             ArrayList<Transactions> transaction = loadInventory();
 
             while (true) {
-                System.out.println("-=-=-=LEDGER SCREEN=-=-=-");
+                formatSpaces();
+                System.out.println("-=-=-=-=-=-=LEDGER SCREEN=-=-=-=-=-=-");
                 System.out.println("""
                         \tA) All
                         \tD) Deposits
@@ -184,12 +188,14 @@ public class AccountingLedgerApp {
 
                 switch (userChoice) {
                     case "A":
+                        formatSpaces();
                         for (int i = transaction.size() - 1; i >= 0; i--) {
                             System.out.println(transaction.get(i));
                         }
                         break;
 
                     case "D":
+                        formatSpaces();
                         // DEPOSITS - amount is POSITIVE (greater than 0)
                         for (int i = transaction.size() - 1; i >= 0; i--) {
                             if (transaction.get(i).getAmount() > 0) {
@@ -199,6 +205,7 @@ public class AccountingLedgerApp {
                         break;
 
                     case "P":
+                        formatSpaces();
                         // PAYMENTS - amount is NEGATIVE (less than 0)
                         for (int i = transaction.size() - 1; i >= 0; i--) {
                             if (transaction.get(i).getAmount() < 0) {
@@ -208,7 +215,8 @@ public class AccountingLedgerApp {
                         break;
 
                     case "R":
-                    displayReports(sc);
+                        formatSpaces();
+                        displayReports(sc);
                         break;
 
                     case "H":
@@ -229,7 +237,8 @@ public class AccountingLedgerApp {
             ArrayList<Transactions> transaction = loadInventory();
 
             while(true){
-            System.out.println("-=-=-=REPORTS=-=-=-");
+            formatSpaces();
+            System.out.println("-=-=-=-=-=-=REPORTS=-=-=-=-=-=-");
             System.out.println("""
                     \t1) Month To Date
                     \t2) Previous Month
@@ -244,7 +253,8 @@ public class AccountingLedgerApp {
 
             switch (choice) {
                 case 1:
-                    System.out.println("-=-=-=MONTH TO DATE=-=-=-");
+                    formatSpaces();
+                    System.out.println("-=-=-=-=MONTH TO DATE=-=-=-=-");
 
                     for (int i = transaction.size() - 1; i >= 0; i--) {
 
@@ -261,7 +271,8 @@ public class AccountingLedgerApp {
                     }
                     break;
                 case 2:
-                    System.out.println("-=-=-=PREVIOUS MONTH=-=-=-");
+                    formatSpaces();
+                    System.out.println("-=-=-=-=PREVIOUS MONTH=-=-=-=-");
 
                     for (int i = transaction.size() - 1; i >= 0; i--) {
 
@@ -279,7 +290,8 @@ public class AccountingLedgerApp {
                     }
                     break;
                 case 3:
-                    System.out.println("-=-=-=YEAR TO DATE=-=-=-");
+                    formatSpaces();
+                    System.out.println("-=-=-=-=YEAR TO DATE=-=-=-=-");
 
                     for (int i = transaction.size() - 1; i >= 0; i--) {
 
@@ -296,7 +308,8 @@ public class AccountingLedgerApp {
                     }
                     break;
                 case 4:
-                    System.out.println("-=-=-=PREVIOUS YEAR=-=-=-");
+                    formatSpaces();
+                    System.out.println("-=-=-=-=PREVIOUS YEAR=-=-=-=-");
 
                         for (int i = transaction.size() - 1; i >= 0; i--) {
                             try{
@@ -315,7 +328,8 @@ public class AccountingLedgerApp {
 
                     break;
                 case 5:
-                    System.out.println("-=-=-=SEARCH BY VENDOR=-=-=-");
+                    formatSpaces();
+                    System.out.println("-=-=-=-=SEARCH BY VENDOR=-=-=-=-");
 
                     System.out.print("Enter Vendor: ");
                     String vendor = sc.nextLine().trim();
@@ -328,7 +342,8 @@ public class AccountingLedgerApp {
                     }
                     break;
                 case 6:
-                    System.out.println("-=-=-=CUSTOM SEARCH=-=-=-");
+                    formatSpaces();
+                    System.out.println("-=-=-=-=CUSTOM SEARCH=-=-=-=-");
 
                     System.out.print("Start Date (YYYY-MM-DD or press ENTER to skip): ");
                     String startDate = sc.nextLine().trim();
