@@ -328,15 +328,17 @@ public class AccountingLedgerApp {
                     }
                     break;
                 case 6:
-                    System.out.print("Start Date (YYYY-MM-DD): ");
+                    System.out.println("-=-=-=CUSTOM SEARCH=-=-=-");
+
+                    System.out.print("Start Date (YYYY-MM-DD or press ENTER to skip): ");
                     String startDate = sc.nextLine().trim();
-                    System.out.print("End Date (YYYY-MM-DD): ");
+                    System.out.print("End Date (YYYY-MM-DD or press ENTER to skip): ");
                     String endDate = sc.nextLine().trim();
-                    System.out.print("Description: ");
+                    System.out.print("Description (or press ENTER to skip): ");
                     String description = sc.nextLine().trim();
-                    System.out.print("Vendor: ");
+                    System.out.print("Vendor (or press ENTER to skip): ");
                     String inputVendor = sc.nextLine().trim();
-                    System.out.print("Amount: ");
+                    System.out.print("Amount (or press ENTER to skip): ");
                     String inputAmount = sc.nextLine();
 
                     for (int i = transaction.size() - 1; i >= 0; i--) {
