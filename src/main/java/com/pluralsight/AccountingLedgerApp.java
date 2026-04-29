@@ -2,25 +2,26 @@ package com.pluralsight;
 
 import java.io.*;
 
-import java.sql.SQLOutput;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 
 
 
 public class AccountingLedgerApp {
+
+
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);  // ALLOWS US TO READ THE INPUT FROM THE KEYBOARD
 
-        System.out.println("WELCOME TO THE ACCOUNTING LEDGER PAGE");  // GREETING THE USER
-        System.out.println("-------------------------------------");
+       printDivider();
+       System.out.println("\uD83D\uDCB0 WELCOME TO THE ACCOUNTING LEDGER PAGE \uD83D\uDCB0");  // GREETING THE USER
+       printDivider();
 
         homeScreen(sc);
 
@@ -78,7 +79,9 @@ public class AccountingLedgerApp {
                 // AUTO-GENERATES THE CURRENT DATE/TIME
                 date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));  // PRINTS "2026-04-27"
                 time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));  // PRINTS "15:37:46"
-                System.out.println("Date and time set to: " + date + " " + time);
+                System.out.printf("""
+                        Date set to: %s
+                        Time set to: %s%n""", date, time);
 
             }else{
 
@@ -106,8 +109,8 @@ public class AccountingLedgerApp {
 
             // SAVES THE NEW TRANSACTION OBJECT TO FILE
             saveToFile(t);
-
-            System.out.println("This Deposit was ADDED successfully!");
+            formatSpaces();
+            System.out.println("\uD83D\uDCB2Deposit of $" + amount + " added successfully!");
 
         }
 
@@ -127,9 +130,11 @@ public class AccountingLedgerApp {
 
             if (answer.equals("Y")) {
                 // AUTO-GENERATES THE CURRENT DATE AND TIME
-                date = LocalDate.now().toString();
-                time = LocalTime.now().toString();
-                System.out.println("Date and time set to: " + date + " " + time);
+                date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));  // PRINTS "2026-04-27"
+                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));  // PRINTS "15:37:46"
+                System.out.printf("""
+                        Date set to: %s
+                        Time set to: %s%n""", date, time);
             } else {
                 // PROMPTS THE USER TO MANUALLY ENTER THE DATE AND TIME
                 System.out.print("Enter date (YYYY-MM-DD): ");
@@ -158,8 +163,8 @@ public class AccountingLedgerApp {
 
             // SAVES THE NEW TRANSACTION OBJECT TO FILE
             saveToFile(t);
-
-            System.out.println("This Payment was SAVED successfully!");
+            formatSpaces();
+            System.out.println("\uD83D\uDCB5 Payment of $" + Math.abs(amount) + " saved successfully!");
         }
 
         public static void displayLedgerScreen(Scanner sc) {
@@ -207,7 +212,6 @@ public class AccountingLedgerApp {
                         break;
 
                     case "H":
-
                         return;
                     default:
                         System.out.println("Invalid option. Please try again!");
@@ -384,5 +388,9 @@ public class AccountingLedgerApp {
 
         public static void formatSpaces() {
         System.out.println();
+    }
+    public static void printDivider(){
+
+        System.out.println(" ========================================");
     }
 }
