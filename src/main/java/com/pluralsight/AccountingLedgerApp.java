@@ -20,7 +20,7 @@ public class AccountingLedgerApp {
         Scanner sc = new Scanner(System.in);  // ALLOWS US TO READ THE INPUT FROM THE KEYBOARD
 
        printDivider();
-       System.out.println("\uD83D\uDCB0 WELCOME TO THE ACCOUNTING LEDGER PAGE \uD83D\uDCB0");  // GREETING THE USER
+       System.out.println("\uD83D\uDCB0 WELCOME TO THE ACCOUNTING LEDGER PAGE \uD83D\uDCB0");  // GREETING
        printDivider();
 
         homeScreen(sc);
@@ -63,7 +63,7 @@ public class AccountingLedgerApp {
     }
 
         public static void addDeposit(Scanner sc){
-            ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE INTO THE ARRAYLIST
+            ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE
 
             System.out.println("=-=-=-=ADD DEPOSIT=-=-=-=");
             formatSpaces();
@@ -115,7 +115,7 @@ public class AccountingLedgerApp {
         }
 
         public static void makeDeposit(Scanner sc){
-            ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE INTO THE ARRAYLIST
+            ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE
 
             System.out.println("=-=-=-=MAKE PAYMENT=-=-=-=");
             formatSpaces();
@@ -236,6 +236,7 @@ public class AccountingLedgerApp {
                     \t3) Year To Date
                     \t4) Previous Year
                     \t5) Search by Vendor
+                    \t6) Custom Search
                     \t0) Back""");
             System.out.print("Choose: ");
             int choice = sc.nextInt();
@@ -326,6 +327,31 @@ public class AccountingLedgerApp {
                         }
                     }
                     break;
+                case 6:
+                    System.out.print("Start Date (YYYY-MM-DD): ");
+                    String startDate = sc.nextLine().trim();
+                    System.out.print("End Date (YYYY-MM-DD): ");
+                    String endDate = sc.nextLine().trim();
+                    System.out.print("Description: ");
+                    String description = sc.nextLine().trim();
+                    System.out.print("Vendor: ");
+                    String inputVendor = sc.nextLine().trim();
+                    System.out.print("Amount: ");
+                    String inputAmount = sc.nextLine();
+
+                    for (int i = transaction.size() - 1; i >= 0; i--) {
+                        if (
+                                (startDate.isEmpty() || transaction.get(i).getDate().compareTo(startDate) >= 0 ) &&  // is the transaction date AFTER OR EQUAL to startDate?
+                                (endDate.isEmpty() || transaction.get(i).getDate().compareTo(endDate) <= 0) &&  // is the transaction date BEFORE OR EQUAL to endDate?
+                                (description.isEmpty() || transaction.get(i).getDescription().equalsIgnoreCase(description)) &&
+                                (inputVendor.isEmpty() || transaction.get(i).getVendor().equalsIgnoreCase(inputVendor)) &&
+                                (inputAmount.isEmpty() || transaction.get(i).getAmount() == Double.parseDouble(inputAmount)))
+                        {
+                                System.out.println(transaction.get(i));
+                        }
+                    }
+                    break;
+
                 case 0:
                     return;
                 default:
