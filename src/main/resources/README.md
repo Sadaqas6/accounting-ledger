@@ -1,4 +1,4 @@
-# 💰 Accounting Ledger App
+# 🍽️ Sadaqa's Kitchen - Accounting Ledger
 
 ## What's This? 🤔
 Hey! This is my Accounting Ledger App built with Java.

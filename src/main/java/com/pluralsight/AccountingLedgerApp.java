@@ -19,9 +19,15 @@ public class AccountingLedgerApp {
 
         Scanner sc = new Scanner(System.in);  // ALLOWS US TO READ THE INPUT FROM THE KEYBOARD
 
-       printDivider();
-       System.out.println("\uD83D\uDCB0 WELCOME TO THE ACCOUNTING LEDGER PAGE \uD83D\uDCB0");  // GREETING
-       printDivider();
+        System.out.println("  ╔══════════════════════════════════╗");
+        System.out.println("  ║                                  ║");
+        System.out.println("  ║        SADAQA'S KITCHEN          ║");
+        System.out.println("  ║      Sales & Expense Ledger      ║");
+        System.out.println("  ║                                  ║");
+        System.out.println("  ╚══════════════════════════════════╝");
+        System.out.println();
+        System.out.println("🍽️ Where good food meets good business.🍴");
+        System.out.println();
 
         homeScreen(sc);
 
@@ -29,7 +35,8 @@ public class AccountingLedgerApp {
         public static void homeScreen(Scanner sc){  // DISPLAYS THE MAIN MENU
 
 
-        while (true) {// KEEPS LOOPING BACK TO HOME SCREEN AFTER EVERY ACTION
+        while (true) { // KEEPS LOOPING BACK TO HOME SCREEN AFTER EVERY ACTION
+
             formatSpaces();
             System.out.println("""          
                     \tD) Add Deposit

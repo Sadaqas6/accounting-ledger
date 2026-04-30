@@ -1,26 +1,21 @@
 date|time|description|vendor|amount
-2023-04-15|10:13:25|ergonomic keyboard|Amazon|-89.50
-2023-04-15|11:15:00|Invoice 1001 paid|Joe|1500.00
-2023-04-16|08:45:00|monthly rent payment|Greenwood Properties|-1200.00
-2023-04-16|12:30:10|office lunch team meeting|Chipotle|-67.35
-2023-04-17|09:00:00|Invoice 1002 paid|Smith & Co|2200.00
-2023-04-18|14:22:45|printer ink cartridges|Staples|-34.99
-2023-04-19|16:05:30|freelance design work|Jane Doe|850.00
-2023-04-20|08:10:00|electric bill|Georgia Power|-143.72
-2023-04-20|13:45:00|business insurance premium|State Farm|-320.00
-2023-04-21|11:00:00|Invoice 1003 paid|TechCorp|3750.00
-2023-04-22|09:30:00|coffee and snacks for office|Costco|-58.44
-2023-04-23|15:20:00|web hosting renewal|GoDaddy|-119.88
-2023-04-24|10:45:00|consulting fee received|Brown LLC|1100.00
-2023-04-25|14:00:00|new office chair|OfficeDepot|-245.00
-2023-04-26|09:15:00|software subscription|Adobe|-54.99
-2026-04-28|15:10:01|Direct Deposit Paycheck|Employer|3500.0
-2026-04-28|15:12:59|Direct Deposit Paycheck|Employer|3500.78
-2025-12-23|03:17:54|Freelance Invoice 2001|Client ABC|900.65
-2026-03-14|12:24:32|Invoice 2002|Sally W|500.65
-2026-04-28|15:17:00|Grocery Shopping|Walmart|-500.76
-2025-04-16|07:17:17|Gas Station|Chevron|-87.98
-2026-04-29|14:50:18|Cash Deposit|Self|600.87
-2024-12-13|04:09:18|Invoice 1005 Paid|Sysco|7800.76
-2026-04-29|14:55:05|Water Bill|Douglas Water|-600.87
-2023-05-12|12:09:07|Happy Meal|McDonalds|-6.98
+2024-01-10|08:30:00|Food Supply Order|Sysco Foods|-1250.00
+2024-02-14|12:00:00|Valentines Day Sales|Customers|3200.00
+2024-03-05|09:15:00|Kitchen Equipment|Restaurant Depot|-875.50
+2024-04-20|11:30:00|Easter Weekend Sales|Customers|4100.00
+2024-05-12|14:00:00|Monthly Rent Payment|Greenwood Properties|-2000.00
+2024-06-18|10:45:00|Summer Catering Event|Corporate Client|5500.00
+2024-07-04|16:00:00|July 4th Holiday Sales|Customers|6200.00
+2024-08-22|09:00:00|Utility Bill|Georgia Power|-320.00
+2024-09-15|13:30:00|Staff Payroll|Employees|-4800.00
+2024-10-31|17:00:00|Halloween Event Sales|Customers|3750.00
+2025-01-15|08:00:00|New Year Catering|Corporate Client|4500.00
+2025-02-28|11:00:00|Food Supply Order|Sysco Foods|-1400.00
+2025-04-10|14:30:00|Spring Menu Launch Sales|Customers|2900.00
+2025-05-25|10:00:00|Memorial Day Weekend Sales|Customers|5100.00
+2025-07-19|09:30:00|Kitchen Renovation|Home Depot|-3200.00
+2025-08-08|12:00:00|Staff Payroll|Employees|-4800.00
+2025-10-05|15:00:00|Fall Catering Event|Corporate Client|6800.00
+2025-12-25|18:00:00|Christmas Day Sales|Customers|7200.00
+2026-01-20|09:00:00|New Year Food Supply|Sysco Foods|-1600.00
+2026-03-17|12:30:00|St Patricks Day Sales|Customers|4300.00
