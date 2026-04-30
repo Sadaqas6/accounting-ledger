@@ -176,7 +176,7 @@ public class AccountingLedgerApp {
 
             while (true) {
                 formatSpaces();
-                System.out.println("-=-=-=-=-=-=LEDGER SCREEN=-=-=-=-=-=-");
+                System.out.println("-=-=-=-=-=LEDGER SCREEN=-=-=-=-=-");
                 System.out.println("""
                         \tA) All
                         \tD) Deposits
