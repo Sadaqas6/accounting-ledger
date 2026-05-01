@@ -26,7 +26,7 @@ public class AccountingLedgerApp {
         System.out.println("  ║                                  ║");
         System.out.println("  ╚══════════════════════════════════╝");
         System.out.println();
-        System.out.println("🍽️ Where good food meets good business.🍴");
+        System.out.println("\uD83C\uDF7D\uFE0F Where good food meets good business.\uD83C\uDF74");
         System.out.println();
 
         homeScreen(sc);
@@ -58,7 +58,7 @@ public class AccountingLedgerApp {
                      displayLedgerScreen(sc);
                     break;
                 case "X":
-                    System.out.println("Thank you for visiting your account. See you soon!!");
+                    System.out.println("Thank you for visiting your account. See you soon\uD83D\uDC4B!!");
                     sc.close();
                     System.exit(0);
                     break;
