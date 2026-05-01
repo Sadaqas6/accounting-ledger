@@ -17,7 +17,7 @@ public class AccountingLedgerApp {
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);  // ALLOWS US TO READ THE INPUT FROM THE KEYBOARD
+        Scanner sc = new Scanner(System.in);
 
         System.out.println("  ╔══════════════════════════════════╗");
         System.out.println("  ║                                  ║");
@@ -35,7 +35,7 @@ public class AccountingLedgerApp {
         public static void homeScreen(Scanner sc){  // DISPLAYS THE MAIN MENU
 
 
-        while (true) { // KEEPS LOOPING BACK TO HOME SCREEN AFTER EVERY ACTION
+        while (true) {
 
             formatSpaces();
             System.out.println("""          
@@ -48,21 +48,21 @@ public class AccountingLedgerApp {
             String userOption = sc.nextLine().toUpperCase();
 
             switch (userOption) {
-                case "D":                // GOES TO THE ADD DEPOSIT SUBMENU
+                case "D":
                     addDeposit(sc);
                     break;
-                case "P":                // GOES TO THE MAKE DEPOSIT SUBMENU
+                case "P":
                     makeDeposit(sc);
                     break;
-                case "L":                // GOES TO THE LEDGER SUBMENU
+                case "L":
                      displayLedgerScreen(sc);
                     break;
-                case "X":               // SENDS A GOODBYE MESSAGE
+                case "X":
                     System.out.println("Thank you for visiting your account. See you soon!!");
-                    sc.close();  // CLOSES THE SCANNER
+                    sc.close();
                     System.exit(0);
                     break;
-                default:                // HANDLES ANY INPUT THAT AREN'T THE ONES LISTED ABOVE
+                default:
                     System.out.print("Invalid option. Try again!(Press ENTER to continue)");
                     sc.nextLine();
             }
@@ -103,20 +103,20 @@ public class AccountingLedgerApp {
 
                 }
 
-                System.out.print("Enter Description: ");  // PROMPTS USER FOR DESCRIPTION
+                System.out.print("Enter Description: ");
                 String description = sc.nextLine().trim();
 
-                System.out.print("Enter Vendor: ");  // PROMPTS USER FOR VENDOR
+                System.out.print("Enter Vendor: ");
                 String vendor = sc.nextLine().trim();
 
-                System.out.print("Enter Amount: ");  // PROMPTS USER FOR AMOUNT
+                System.out.print("Enter Amount: ");
                 double amount = Double.parseDouble(sc.nextLine());
 
-                // CREATES A NEW TRANSACTION OBJECT WITH COLLECTED DATA ABOVE
-                Transactions t = new Transactions(date, time, description, vendor, amount);
-                transaction.add(t);  // ADDS IT TO THE LIST
 
-                // SAVES THE NEW TRANSACTION OBJECT TO FILE
+                Transactions t = new Transactions(date, time, description, vendor, amount);
+                transaction.add(t);
+
+
                 saveToFile(t);
                 formatSpaces();
                 System.out.println("\uD83D\uDCB2Deposit of $" + amount + " added successfully!");
@@ -124,13 +124,13 @@ public class AccountingLedgerApp {
         }
 
         public static void makeDeposit(Scanner sc){
-            ArrayList<Transactions> transaction = loadInventory(); // LOADS ALL THE TRANSACTIONS FROM THE CSV FILE
+            ArrayList<Transactions> transaction = loadInventory();
 
             formatSpaces();
             System.out.println("=-=-=-=MAKE PAYMENT=-=-=-=");
             formatSpaces();
 
-            // ASKS THE USER IF THE PAYMENT IS HAPPENING NOW OR IN THE PAST
+
             System.out.print("Is this payment from today? (Y/N): ");
             String answer = sc.nextLine().trim().toUpperCase();
 
@@ -139,14 +139,14 @@ public class AccountingLedgerApp {
 
 
             if (answer.equals("Y")) {
-                // AUTO-GENERATES THE CURRENT DATE AND TIME
+
                 date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));  // PRINTS "2026-04-27"
                 time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));  // PRINTS "15:37:46"
                 System.out.printf("""
                         Date set to: %s
                         Time set to: %s%n""", date, time);
             } else {
-                // PROMPTS THE USER TO MANUALLY ENTER THE DATE AND TIME
+
                 System.out.print("Enter date (YYYY-MM-DD): ");
                 date = sc.nextLine().trim();
 
@@ -154,24 +154,24 @@ public class AccountingLedgerApp {
                 time = sc.nextLine().trim();
             }
 
-            System.out.print("Enter Description: ");  // PROMPTS USER FOR DESCRIPTION
+            System.out.print("Enter Description: ");
             String description = sc.nextLine().trim();
 
-            System.out.print("Enter Vendor: ");  // PROMPTS USER FOR VENDOR
+            System.out.print("Enter Vendor: ");
             String vendor = sc.nextLine().trim();
 
-            System.out.print("Enter Amount: ");  // PROMPTS USER FOR AMOUNT
+            System.out.print("Enter Amount: ");
             double amount = Double.parseDouble(sc.nextLine());
 
             if (amount > 0){
-                amount = -amount;  // FLIPS THE AMOUNT NEGATIVE FOR THE PAYMENT
+                amount = -amount;
             }
 
-            // CREATES A NEW TRANSACTION OBJECT WITH COLLECTED DATA ABOVE
-            Transactions t = new Transactions(date, time, description, vendor, amount);
-            transaction.add(t);  // ADDS IT TO THE LIST
 
-            // SAVES THE NEW TRANSACTION OBJECT TO FILE
+            Transactions t = new Transactions(date, time, description, vendor, amount);
+            transaction.add(t);
+
+
             saveToFile(t);
             formatSpaces();
             System.out.println("\uD83D\uDCB5 Payment of $" + Math.abs(amount) + " saved successfully!");
@@ -203,7 +203,7 @@ public class AccountingLedgerApp {
 
                     case "D":
                         formatSpaces();
-                        // DEPOSITS - amount is POSITIVE (greater than 0)
+
                         for (int i = transaction.size() - 1; i >= 0; i--) {
                             if (transaction.get(i).getAmount() > 0) {
                                 System.out.println(transaction.get(i));
@@ -213,7 +213,7 @@ public class AccountingLedgerApp {
 
                     case "P":
                         formatSpaces();
-                        // PAYMENTS - amount is NEGATIVE (less than 0)
+
                         for (int i = transaction.size() - 1; i >= 0; i--) {
                             if (transaction.get(i).getAmount() < 0) {
                                 System.out.println(transaction.get(i));
@@ -266,9 +266,9 @@ public class AccountingLedgerApp {
                     for (int i = transaction.size() - 1; i >= 0; i--) {
 
                         try{
-                        // PARSES THE TRANSACTION DATE STRING INTO A LocalDate OBJECT
+
                         LocalDate transactionDate = LocalDate.parse(transaction.get(i).getDate());
-                        // CHECKS IF THE TRANSACTION MONTH AND YEAR MATCH THE CURRENT MONTH AND YEAR
+
                         if (transactionDate.getMonthValue() == LocalDate.now().getMonthValue() && transactionDate.getYear() == LocalDate.now().getYear()) {
                             System.out.println(transaction.get(i));
                         }
@@ -284,7 +284,7 @@ public class AccountingLedgerApp {
                     for (int i = transaction.size() - 1; i >= 0; i--) {
 
                         try{
-                        // PARSES THE TRANSACTION DATE STRING INTO A LocalDate OBJECT
+
                         LocalDate transactionDate = LocalDate.parse(transaction.get(i).getDate());
 
                         if (transactionDate.getMonthValue() == LocalDate.now().getMonthValue() - 1 && transactionDate.getYear() == LocalDate.now().getYear()) {
@@ -390,43 +390,43 @@ public class AccountingLedgerApp {
             ArrayList<Transactions> transactions = new ArrayList<>(); // ARRAYLIST OF TRANSACTION OBJECTS
 
             try{
-                // OPENS AND READS THE FILE USING BUFFEREDREADER FOR EFFICIENCY
+
                 BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
 
-                String line;   // line VARIABLE HOLDS EACH LINE FROM THE FILE AS IT READS
+                String line;
                 bufferedReader.readLine();  // SKIPS THE FIRST HEADER LINE
 
-                // READS EACH LINE FROM THE CSV FILE UNTIL IT RETURNS NULL
+
                 while((line = bufferedReader.readLine()) != null){
 
                     String[] splitTransaction = line.split("\\|");
-                    String date = splitTransaction[0]; // FIRST FIELD: DATE
-                    String time = splitTransaction[1]; // SECOND FIELD: TIME
-                    String description = splitTransaction[2]; // THIRD FIELD: DESCRIPTION
-                    String vendor = splitTransaction[3];      // FORTH FIELD: VENDOR
-                    double amount = Double.parseDouble(splitTransaction[4]);  // FIFTH FIELD: AMOUNT
+                    String date = splitTransaction[0];
+                    String time = splitTransaction[1];
+                    String description = splitTransaction[2];
+                    String vendor = splitTransaction[3];
+                    double amount = Double.parseDouble(splitTransaction[4]);
 
-                    Transactions t = new Transactions(date, time, description, vendor, amount);  // CREATES A NEW TRANSACTION OBJECT
-                    transactions.add(t);   // ADDS THE TRANSACTION TO THE ARRAYLIST
+                    Transactions t = new Transactions(date, time, description, vendor, amount);
+                    transactions.add(t);
                 }
-                bufferedReader.close();  // CLOSES THE FILE AND RELEASES TO RESOURCES
+                bufferedReader.close();
 
             }catch(IOException e){
 
-                e.printStackTrace();  // PRINTS THE ERROR IN THE SEQUENCES OF PROBLEMS CAUSING THE ERROR
+                e.printStackTrace();
             }
 
-            return transactions; // RETURNS THE FULL LIST
+            return transactions;
         }
 
         public static void saveToFile(Transactions t){
 
             try{
-                // USING APPEND == TRUE TO PREVENT FROM OVERRIDING THE EXISTING TRANSACTIONS
+
                 BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
 
-                // WRITES THE TRANSACTION INTO THE CSV FILE
-                bufferedWriter.write(t.toString());  // CALLS THE toString FROM TRANSACTION CLASS
+
+                bufferedWriter.write(t.toString());
                 bufferedWriter.newLine();
                 bufferedWriter.close();
 
