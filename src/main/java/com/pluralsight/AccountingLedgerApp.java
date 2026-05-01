@@ -400,10 +400,10 @@ public class AccountingLedgerApp {
                 while((line = bufferedReader.readLine()) != null){
 
                     String[] splitTransaction = line.split("\\|");
-                    String date = splitTransaction[0];
-                    String time = splitTransaction[1];
-                    String description = splitTransaction[2];
-                    String vendor = splitTransaction[3];
+                    String date = splitTransaction[0].trim();
+                    String time = splitTransaction[1].trim();
+                    String description = splitTransaction[2].trim();
+                    String vendor = splitTransaction[3].trim();
                     double amount = Double.parseDouble(splitTransaction[4]);
 
                     Transactions t = new Transactions(date, time, description, vendor, amount);
